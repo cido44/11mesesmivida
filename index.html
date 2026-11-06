@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nuestros 11 Meses Juntos ✨</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Playfair Display, Great Vibes y Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(ellipse at top, #1c0d16 0%, #12070d 50%, #080306 100%);
+      color: #F8EDEB;
+      min-height: 100vh;
+      overflow-x: hidden;
+      touch-action: pan-y;
+    }
+
+    .font-script {
+      font-family: 'Great Vibes', cursive;
+    }
+
+    .font-serif-title {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* Glassmorphism sutil para el contador */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.045);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 200, 215, 0.14);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .glass-card-interactive {
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(251, 191, 206, 0.22);
+      box-shadow: 0 20px 45px -15px rgba(225, 29, 72, 0.35);
+    }
+
+    /* Pulsación viva del 11 */
+    @keyframes heartbeatGlow {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 35px rgba(225, 29, 72, 0.4), inset 0 0 20px rgba(251, 191, 206, 0.3);
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 65px rgba(244, 63, 94, 0.7), 0 0 90px rgba(217, 119, 6, 0.3), inset 0 0 30px rgba(255, 255, 255, 0.6);
+      }
+    }
+
+    .btn-pulse {
+      animation: heartbeatGlow 3s ease-in-out infinite;
+    }
+
+    /* Cursor de máquina de escribir */
+    .typewriter-cursor::after {
+      content: '|';
+      display: inline-block;
+      margin-left: 4px;
+      color: #fda4af;
+      animation: blink 0.8s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Partículas de fondo */
+    .floating-petal {
+      position: fixed;
+      pointer-events: none;
+      user-select: none;
+      animation: floatDownward 12s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes floatDownward {
+      0% {
+        transform: translateY(-8vh) rotate(0deg) scale(0.7);
+        opacity: 0;
+      }
+      15% { opacity: 0.55; }
+      85% { opacity: 0.55; }
+      100% {
+        transform: translateY(105vh) rotate(360deg) scale(1.1);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body class="relative min-h-screen flex flex-col justify-between selection:bg-rose-500 selection:text-white">
+
+  <!-- Contenedor de partículas flotantes -->
+  <div id="ambient-particles" class="fixed inset-0 pointer-events-none z-0"></div>
+
+  <!-- Botón de sonido flotante (Web Audio API) -->
+  <div class="fixed top-4 right-4 z-50">
+    <button id="sound-toggle" aria-label="Sonido activado" class="flex items-center gap-2 py-1.5 px-3 rounded-full bg-white/10 hover:bg-white/15 border border-white/20 text-xs text-rose-200 backdrop-blur transition-all">
+      <span id="sound-icon">🔔</span>
+      <span id="sound-text" class="hidden sm:inline">Sonido: On</span>
+    </button>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <div class="relative z-10 w-full max-w-4xl mx-auto px-4 py-8 sm:py-12 flex flex-col items-center">
+    
+    <!-- ================= 1. CONTADOR DE AMOR EN VIVO ================= -->
+    <header class="w-full text-center space-y-4 mb-10">
+      <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-rose-500/15 border border-rose-400/30 text-rose-300 text-xs tracking-wider uppercase font-semibold">
+        <span>✨</span> Historia de Amor en Vivo <span>✨</span>
+      </div>
+
+      <h1 class="font-serif-title text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white drop-shadow-md">
+        Llevamos construyendo este amor:
+      </h1>
+
+      <p class="text-xs sm:text-sm text-rose-200/70 max-w-md mx-auto">
+        Cada segundo cuenta cuando estoy contigo.
+      </p>
+
+      <!-- Grid de Unidades del Contador -->
+      <div class="grid grid-cols-5 gap-2 sm:gap-3.5 max-w-xl mx-auto pt-3">
+        <!-- Meses -->
+        <div class="glass-card rounded-2xl p-2.5 sm:p-4 text-center">
+          <span id="counter-months" class="font-serif-title text-2xl sm:text-4xl font-bold text-rose-300 block">11</span>
+          <span class="text-[10px] sm:text-xs uppercase font-medium tracking-wider text-rose-200/60 mt-0.5 block">Meses</span>
+        </div>
+        <!-- Días -->
+        <div class="glass-card rounded-2xl p-2.5 sm:p-4 text-center">
+          <span id="counter-days" class="font-serif-title text-2xl sm:text-4xl font-bold text-rose-100 block">0</span>
+          <span class="text-[10px] sm:text-xs uppercase font-medium tracking-wider text-rose-200/60 mt-0.5 block">Días</span>
+        </div>
+        <!-- Horas -->
+        <div class="glass-card rounded-2xl p-2.5 sm:p-4 text-center">
+          <span id="counter-hours" class="font-serif-title text-2xl sm:text-4xl font-bold text-rose-100 block">0</span>
+          <span class="text-[10px] sm:text-xs uppercase font-medium tracking-wider text-rose-200/60 mt-0.5 block">Horas</span>
+        </div>
+        <!-- Minutos -->
+        <div class="glass-card rounded-2xl p-2.5 sm:p-4 text-center">
+          <span id="counter-minutes" class="font-serif-title text-2xl sm:text-4xl font-bold text-rose-100 block">0</span>
+          <span class="text-[10px] sm:text-xs uppercase font-medium tracking-wider text-rose-200/60 mt-0.5 block">Min</span>
+        </div>
+        <!-- Segundos -->
+        <div class="glass-card rounded-2xl p-2.5 sm:p-4 text-center border-rose-500/40 shadow-inner">
+          <span id="counter-seconds" class="font-serif-title text-2xl sm:text-4xl font-bold text-rose-400 block animate-pulse">0</span>
+          <span class="text-[10px] sm:text-xs uppercase font-medium tracking-wider text-rose-200/60 mt-0.5 block">Seg</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ================= 2. BOTÓN CENTRAL DEL 11 ================= -->
+    <div id="hero-trigger-area" class="w-full flex flex-col items-center justify-center my-6 transition-all duration-700 ease-out">
+      <p class="text-xs sm:text-sm tracking-widest uppercase font-semibold text-rose-300 mb-6 flex items-center gap-2">
+        <span>💌</span> Presiona el 11 para descubrirlo <span>💌</span>
+      </p>
+
+      <button id="btn-eleven" aria-label="Abrir 11 razones" class="btn-pulse group relative w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-gradient-to-tr from-rose-700 via-rose-600 to-amber-500 flex flex-col items-center justify-center cursor-pointer active:scale-95 transition-all duration-300 border-4 border-rose-200/70 shadow-2xl">
+        <span class="font-serif-title font-bold text-6xl sm:text-7xl leading-none text-white drop-shadow group-hover:scale-110 transition-transform duration-300">
+          11
+        </span>
+        <span class="text-[11px] font-semibold uppercase tracking-widest text-rose-100 mt-1">
+          Meses
+        </span>
+        <!-- Anillo exterior giratorio sutil -->
+        <div class="absolute -inset-2.5 rounded-full border border-rose-300/30 border-dashed animate-spin" style="animation-duration: 25s;"></div>
+      </button>
+
+      <p class="text-xs text-rose-300/80 mt-6 italic">
+        "11 meses, infinitos latidos compartidos"
+      </p>
+    </div>
+
+    <!-- ================= 3. SECCIÓN REVELADA TRAS PULSAR EL 11 ================= -->
+    <section id="reasons-stage" class="hidden w-full flex-col items-center opacity-0 transition-opacity duration-700">
+      
+      <!-- EFECTO TYPEWRITER DEL TÍTULO -->
+      <div class="min-h-[70px] sm:min-h-[85px] flex items-center justify-center text-center px-2 mb-8">
+        <h2 id="typewriter-target" class="font-serif-title text-2xl sm:text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-200 via-rose-100 to-amber-200 typewriter-cursor"></h2>
+      </div>
+
+      <!-- CARRUSEL DE LAS 11 RAZONES (100% TEXTO) -->
+      <div id="carousel-box" class="w-full max-w-xl mx-auto flex flex-col items-center opacity-0 transition-all duration-700 transform translate-y-6">
+        
+        <!-- Tarjeta activa -->
+        <div id="touch-card-container" class="w-full glass-card-interactive rounded-3xl p-7 sm:p-10 relative overflow-hidden text-center min-h-[340px] flex flex-col justify-between border-2 border-rose-300/20">
+          
+          <!-- Encabezado de la tarjeta -->
+        <div class="flex items-center justify-between border-b border-rose-200/10 pb-3">
+          <span id="card-badge" class="font-script text-2xl sm:text-3xl text-rose-300">Razón 1 de 11</span>
+          <span id="card-theme" class="text-[11px] font-semibold uppercase tracking-wider text-amber-200/90 bg-amber-500/15 px-3 py-1 rounded-full border border-amber-400/25">
+            Por cómo empezó todo
+          </span>
+        </div>
+
+        <!-- Contenido emotivo de texto -->
+        <div class="my-auto py-4">
+          <div class="text-rose-400 text-3xl font-script opacity-60">“</div>
+          <p id="card-text" class="font-serif-title italic text-base sm:text-lg md:text-xl text-rose-50 leading-relaxed px-1 sm:px-4">
+            <!-- Razón inyectada por JS -->
+          </p>
+          <div class="text-rose-400 text-3xl font-script opacity-60">”</div>
+        </div>
+
+        <!-- Pie de tarjeta -->
+        <div class="pt-3 border-t border-rose-200/10 flex items-center justify-between text-xs text-rose-300/70">
+          <span>❤️ 11 Meses a tu lado</span>
+          <span class="text-[11px] text-rose-300/80">Desliza con el dedo 👈👉</span>
+        </div>
+      </div>
+
+          <!-- Contenido emotivo de texto -->
+          <div class="my-auto py-4">
+            <div class="text-rose-400 text-3xl font-script opacity-60">“</div>
+            <p id="card-text" class="font-serif-title italic text-base sm:text-lg md:text-xl text-rose-50 leading-relaxed px-1 sm:px-4">
+              <!-- Razón inyectada por JS -->
+            </p>
+            <div class="text-rose-400 text-3xl font-script opacity-60">”</div>
+          </div>
+
+          <!-- Pie de tarjeta -->
+          <div class="pt-3 border-t border-rose-200/10 flex items-center justify-between text-xs text-rose-300/70">
+            <span>❤️ 11 Meses a tu lado</span>
+            <span class="hidden sm:inline">Desliza o usa las flechas</span>
+          </div>
+        </div>
+
+        <!-- Controles: Anterior / Siguiente -->
+        <div class="w-full flex items-center justify-between mt-6 px-2">
+          <button id="btn-prev" class="px-5 py-2.5 rounded-full glass-card hover:bg-white/10 active:scale-95 transition-all text-xs font-semibold text-rose-200 flex items-center gap-1.5 disabled:opacity-30 disabled:pointer-events-none">
+            ← Anterior
+          </button>
+
+          <!-- Puntos indicadores (1 al 11) -->
+          <div id="carousel-dots" class="flex gap-1.5 sm:gap-2">
+            <!-- 11 bolitas dinámicas -->
+          </div>
+
+          <button id="btn-next" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 active:scale-95 shadow-lg transition-all text-xs font-semibold text-white flex items-center gap-1.5">
+            Siguiente →
+          </button>
+        </div>
+
+        <!-- Mensaje final que aparece en la tarjeta 11 o al completarlas -->
+        <div id="final-love-banner" class="hidden mt-8 w-full glass-card rounded-2xl p-6 text-center border border-amber-400/30 bg-gradient-to-b from-rose-950/40 to-black/60 shadow-2xl animate-fade-in">
+          <div class="text-3xl mb-2">🥂✨</div>
+          <h3 class="font-serif-title font-bold text-xl sm:text-2xl text-rose-100">
+            Felices 11 meses, mi amor.
+          </h3>
+          <p class="font-script text-2xl sm:text-3xl text-rose-300 mt-2">
+            Esto recién comienza... y es para toda la vida. ❤️
+          </p>
+          <div class="mt-4">
+            <button onclick="launchConfettiStorm()" class="py-2 px-5 rounded-full bg-rose-600 hover:bg-rose-500 text-xs font-bold uppercase tracking-wider text-white shadow-md active:scale-95 transition-all">
+              Celebrar con confeti 🎉
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Pie de página romántico -->
+  <footer class="relative z-10 w-full py-5 text-center text-xs text-rose-300/40 border-t border-rose-900/40">
+    11 Meses de Amor Infinito • Celebrando cada segundo juntos
+  </footer>
+
+  <!-- ================= LÓGICA JAVASCRIPT ================= -->
+  <script>
+    /* =========================================================================
+       CONFIGURACIÓN INICIAL - FECHA DE INICIO EXACTA
+       ========================================================================= */
+    // 5 de diciembre de 2025 a las 00:00:00 (Mes 11 en JavaScript es Diciembre)
+    const START_DATE = new Date(2025, 11, 5, 0, 0, 0);
+
+    /* =========================================================================
+       LAS 11 RAZONES EMOTIVAS PERSONALIZADAS
+       ========================================================================= */
+    const loveReasons = [
+      {
+        number: 1,
+        theme: "Por cómo empezó todo",
+        reason: "Por ese primer momento en que conectamos y tuve la certeza absoluta de que contigo la vida se venía distinta, real y a otro nivel."
+      },
+      {
+        number: 2,
+        theme: "Por ser mi lugar seguro",
+        reason: "Porque no importa qué tan pesado, ruidoso o agotador se ponga el día entre la u, la música y la rutina: basta un abrazo tuyo para que todo el ruido baje y vuelva la calma."
+      },
+      {
+        number: 3,
+        theme: "Por nuestras risas y tonteras",
+        reason: "Por reírnos de la nada, por esas miradas cómplices que solo entendemos los dos y por convertir cualquier momento simple en el mejor panorama."
+      },
+      {
+        number: 4,
+        theme: "Por escucharme y bancarme siempre",
+        reason: "Porque contigo no tengo que fingir nada. Gracias por escucharme de verdad, por entender mis momentos de silencio y por ser ese apoyo incondicional en cada proyecto y meta que me propongo."
+      },
+      {
+        number: 5,
+        theme: "Por cada salida, comida y aventura",
+        reason: "Por cada lugar nuevo que probamos, cada escapada y cada bajón improvisado. Al final da lo mismo a dónde vayamos o qué estemos comiendo; si es contigo al lado, ya es el mejor plan."
+      },
+      {
+        number: 6,
+        theme: "Por cómo me cuidas",
+        reason: "Por tus detalles de todos los días, tu preocupación genuina y esa forma tan tuya de hacerme sentir querido y con el corazón tranquilo."
+      },
+      {
+        number: 7,
+        theme: "Por el equipazo que somos",
+        reason: "Porque cuando las cosas se ponen difíciles o el panorama aprieta, no dudamos: nos miramos, remamos juntos y salimos adelante como la tremenda dupla que somos."
+      },
+      {
+        number: 8,
+        theme: "Por tu energía y tu carácter",
+        reason: "Amo tu chispa, tu autenticidad y las ganas que le pones a lo que te apasiona. Tienes una luz y una fuerza que contagian todo a tu alrededor."
+      },
+      {
+        number: 9,
+        theme: "Por hacerme querer crecer",
+        reason: "Tenerte conmigo me motiva a dar lo mejor de mí, a no quedarme cómodo y a seguir construyendo paso a paso el futuro que nos merecemos."
+      },
+      {
+        number: 10,
+        theme: "Por ser mi compañera de vida y mi amor",
+        reason: "Porque eres mi polola, pero también mi mejor amiga, mi persona favorita para todo y la primera con la que quiero celebrar cualquier triunfo."
+      },
+      {
+        number: 11,
+        theme: "Porque esto recién empieza",
+        reason: "Por estos 11 meses de complicidad, aguante y aprendizajes juntos. Te amo con todo mi corazón, mi bebe, mi niña mi todo, te amoooooooo infinito y vamos por muchos meses mas juntitos ❤️"
+      }
+    ];
+
+    let currentCardIndex = 0;
+    let audioEnabled = true;
+    let audioCtx = null;
+
+    /* =========================================================================
+       AUDIO SUTIL CON WEB AUDIO API (Sin archivos externos)
+       ========================================================================= */
+    function playChime(freq = 587.33) {
+      if (!audioEnabled) return;
+      try {
+        if (!audioCtx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          audioCtx = new AudioContext();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.6);
+      } catch (e) {
+        // Ignorar si el navegador bloquea audio inicial
+      }
+    }
+
+    // Toggle de sonido
+    const soundToggle = document.getElementById('sound-toggle');
+    const soundIcon = document.getElementById('sound-icon');
+    const soundText = document.getElementById('sound-text');
+    soundToggle.addEventListener('click', () => {
+      audioEnabled = !audioEnabled;
+      soundIcon.innerText = audioEnabled ? '🔔' : '🔕';
+      soundText.innerText = audioEnabled ? 'Sonido: On' : 'Sonido: Off';
+      if (audioEnabled) playChime(659.25);
+    });
+
+    /* =========================================================================
+       1. CONTADOR DE AMOR EN TIEMPO REAL
+       ========================================================================= */
+    function updateLoveCounter() {
+      const current = new Date();
+      let diffMs = current - START_DATE;
+      if (diffMs < 0) diffMs = 0;
+
+      // Cálculo de meses transcurridos con precisión de calendario
+      let months = (current.getFullYear() - START_DATE.getFullYear()) * 12 + (current.getMonth() - START_DATE.getMonth());
+      let tempDate = new Date(START_DATE.getTime());
+      tempDate.setMonth(tempDate.getMonth() + months);
+
+      // Si nos pasamos de día en el mes actual, restamos un mes
+      if (tempDate > current) {
+        months--;
+        tempDate = new Date(START_DATE.getTime());
+        tempDate.setMonth(tempDate.getMonth() + months);
+      }
+
+      // Resto de días, horas, minutos y segundos desde tempDate hasta now
+      let remainderMs = current - tempDate;
+      const days = Math.floor(remainderMs / (1000 * 60 * 60 * 24));
+      remainderMs -= days * (1000 * 60 * 60 * 24);
+
+      const hours = Math.floor(remainderMs / (1000 * 60 * 60));
+      remainderMs -= hours * (1000 * 60 * 60);
+
+      const minutes = Math.floor(remainderMs / (1000 * 60));
+      remainderMs -= minutes * (1000 * 60);
+
+      const seconds = Math.floor(remainderMs / 1000);
+
+      document.getElementById('counter-months').innerText = months;
+      document.getElementById('counter-days').innerText = days;
+      document.getElementById('counter-hours').innerText = hours;
+      document.getElementById('counter-minutes').innerText = minutes;
+      document.getElementById('counter-seconds').innerText = seconds;
+    }
+
+    /* =========================================================================
+       PARTÍCULAS AMBIENTALES FLOTANTES
+       ========================================================================= */
+    function initAmbientParticles() {
+      const container = document.getElementById('ambient-particles');
+      const icons = ['🌸', '✨', '🤍', '💖', '⭐'];
+      for (let i = 0; i < 22; i++) {
+        const span = document.createElement('span');
+        span.className = 'floating-petal';
+        span.innerText = icons[Math.floor(Math.random() * icons.length)];
+        span.style.left = `${Math.random() * 100}vw`;
+        span.style.animationDelay = `${Math.random() * 10}s`;
+        span.style.animationDuration = `${9 + Math.random() * 8}s`;
+        span.style.fontSize = `${12 + Math.random() * 14}px`;
+        container.appendChild(span);
+      }
+    }
+
+    /* =========================================================================
+       2. CLICK EN EL 11 & EFECTO MÁQUINA DE ESCRIBIR
+       ========================================================================= */
+    const btnEleven = document.getElementById('btn-eleven');
+    const heroArea = document.getElementById('hero-trigger-area');
+    const reasonsStage = document.getElementById('reasons-stage');
+    const typewriterTarget = document.getElementById('typewriter-target');
+    const carouselBox = document.getElementById('carousel-box');
+
+    btnEleven.addEventListener('click', () => {
+      playChime(523.25); // Do
+      setTimeout(() => playChime(659.25), 150); // Mi
+      setTimeout(() => playChime(783.99), 300); // Sol
+
+      // Estallido de confeti y corazones
+      confetti({
+        particleCount: 55,
+        spread: 80,
+        origin: { y: 0.55 },
+        colors: ['#f43f5e', '#fda4af', '#f59e0b', '#ffffff']
+      });
+
+      // Ocultar suavemente el botón del 11
+      heroArea.style.opacity = '0';
+      heroArea.style.transform = 'scale(0.92)';
+
+      setTimeout(() => {
+        heroArea.classList.add('hidden');
+        reasonsStage.classList.remove('hidden');
+        reasonsStage.classList.add('flex');
+        
+        // Transición de entrada de la nueva sección
+        setTimeout(() => {
+          reasonsStage.classList.remove('opacity-0');
+          startTypewriter();
+        }, 50);
+      }, 500);
+    });
+
+    const fullPhrase = "11 razones por las que te amo hoy y toda la vida ✨";
+    let typeCharIndex = 0;
+
+    function startTypewriter() {
+      typewriterTarget.innerText = "";
+      function typeNextLetter() {
+        if (typeCharIndex < fullPhrase.length) {
+          typewriterTarget.innerText += fullPhrase.charAt(typeCharIndex);
+          typeCharIndex++;
+          setTimeout(typeNextLetter, 48);
+        } else {
+          // Finalizó de escribir: mostrar el carrusel con suavidad
+          setTimeout(() => {
+            typewriterTarget.classList.remove('typewriter-cursor');
+            carouselBox.classList.remove('opacity-0', 'translate-y-6');
+            playChime(880);
+          }, 350);
+        }
+      }
+      typeNextLetter();
+    }
+
+    /* =========================================================================
+       3. CARRUSEL DE LAS 11 RAZONES
+       ========================================================================= */
+    const cardBadge = document.getElementById('card-badge');
+    const cardTheme = document.getElementById('card-theme');
+    const cardText = document.getElementById('card-text');
+    const dotsContainer = document.getElementById('carousel-dots');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    const finalBanner = document.getElementById('final-love-banner');
+    const touchCard = document.getElementById('touch-card-container');
+
+    // Generar los 11 puntos indicadores
+    function initDots() {
+      dotsContainer.innerHTML = '';
+      loveReasons.forEach((_, idx) => {
+        const dot = document.createElement('button');
+        dot.className = `w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-300 ${idx === 0 ? 'bg-rose-400 w-5 sm:w-6' : 'bg-white/20'}`;
+        dot.setAttribute('aria-label', `Ir a razón ${idx + 1}`);
+        dot.addEventListener('click', () => {
+          goToCard(idx);
+        });
+        dotsContainer.appendChild(dot);
+      });
+    }
+
+    function renderActiveCard() {
+      const data = loveReasons[currentCardIndex];
+      
+      // Animación suave al cambiar
+      touchCard.style.opacity = '0.35';
+      touchCard.style.transform = 'scale(0.98)';
+
+      setTimeout(() => {
+        cardBadge.innerText = `Razón ${data.number} de 11`;
+        cardTheme.innerText = data.theme;
+        cardText.innerText = data.reason;
+
+        touchCard.style.opacity = '1';
+        touchCard.style.transform = 'scale(1)';
+
+        // Actualizar puntos
+        const dots = dotsContainer.children;
+        for (let i = 0; i < dots.length; i++) {
+          if (i === currentCardIndex) {
+            dots[i].className = 'w-5 sm:w-6 h-2 sm:h-2.5 rounded-full bg-rose-400 transition-all duration-300';
+          } else {
+            dots[i].className = 'w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-white/20 transition-all duration-300';
+          }
+        }
+
+        // Estado de botones
+        btnPrev.disabled = currentCardIndex === 0;
+
+        if (currentCardIndex === loveReasons.length - 1) {
+          btnNext.innerText = 'Celebrar 🎉';
+          btnNext.classList.add('from-amber-600', 'to-rose-600');
+          finalBanner.classList.remove('hidden');
+        } else {
+          btnNext.innerText = 'Siguiente →';
+          btnNext.classList.remove('from-amber-600', 'to-rose-600');
+        }
+      }, 150);
+    }
+
+    function goToCard(index) {
+      if (index >= 0 && index < loveReasons.length) {
+        currentCardIndex = index;
+        playChime(500 + currentCardIndex * 35);
+        renderActiveCard();
+      }
+    }
+
+    btnPrev.addEventListener('click', () => {
+      if (currentCardIndex > 0) {
+        goToCard(currentCardIndex - 1);
+      }
+    });
+
+    btnNext.addEventListener('click', () => {
+      if (currentCardIndex < loveReasons.length - 1) {
+        goToCard(currentCardIndex + 1);
+      } else {
+        launchConfettiStorm();
+      }
+    });
+
+    // Soporte para gestos táctiles (Swipe en celulares)
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    touchCard.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    touchCard.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const swipeDistance = touchEndX - touchStartX;
+      if (swipeDistance > 45 && currentCardIndex > 0) {
+        goToCard(currentCardIndex - 1); // Swipe derecha
+      } else if (swipeDistance < -45 && currentCardIndex < loveReasons.length - 1) {
+        goToCard(currentCardIndex + 1); // Swipe izquierda
+      }
+    }
+
+    /* =========================================================================
+       TORMENTA DE CONFETI FINAL
+       ========================================================================= */
+    function launchConfettiStorm() {
+      playChime(784);
+      setTimeout(() => playChime(1046.5), 180);
+
+      const end = Date.now() + (3 * 1000);
+      (function frame() {
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 60,
+          origin: { x: 0 },
+          colors: ['#f43f5e', '#fb7185', '#fbbf24', '#ffffff']
+        });
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 60,
+          origin: { x: 1 },
+          colors: ['#f43f5e', '#fb7185', '#fbbf24', '#ffffff']
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      }());
+    }
+
+    /* =========================================================================
+       INICIALIZACIÓN AL CARGAR LA PÁGINA
+       ========================================================================= */
+    window.onload = function () {
+      initAmbientParticles();
+      initDots();
+      renderActiveCard();
+      updateLoveCounter();
+      setInterval(updateLoveCounter, 1000);
+    };
+  </script>
+</body>
+</html>
